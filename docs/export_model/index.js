@@ -22,6 +22,8 @@ async function app() {
   var indexOfMaxValue = result.dataSync().reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
   var labels = ["cloudy", "rain", "shine", "sunrise"];
   
+  var aaa = result.dataSync()
+  
   console.log('Prediction done');
 
   // For the assignment, change this
@@ -36,7 +38,7 @@ async function app() {
   //}
   /// YOUR CODE ENDS HERE
 
-prob = ((1-result.dataSync()[indexOfMaxValue])*100).toFixed(2);
+prob = ((result.dataSync()[indexOfMaxValue])*100).toFixed(2);
 pred.innerHTML = "<b>" + labels[indexOfMaxValue] + "</b>  (probability=".concat(prob, "%)");
   return(prob);
 }
