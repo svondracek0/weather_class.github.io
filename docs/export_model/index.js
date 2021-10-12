@@ -18,22 +18,27 @@ async function app() {
   // Make a prediction through the model on our image.
   const imgEl = document.getElementById('img');
   const result = await net.predict(preprocessImage(imgEl));
-  const p_cat = result.dataSync()[0];
+  // const p_cat = result.dataSync()[0]; 
+  var indexOfMaxValue = result.dataSync().reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+  var labels = ["cloudy", "rain", "shine", "sunrise"];
+  
   console.log('Prediction done');
 
   // For the assignment, change this
   // YOUR CODE STARTS HERE
   var pred = document.getElementById('pred');
-  if (p_cat < 0.5) {
-      prob = ((1-p_cat)*100).toFixed(2);
-      pred.innerHTML = "<b>Dog</b> (probability=".concat(prob, "%)");
-  } else {
-    prob = (p_cat*100).toFixed(2);
-    pred.innerHTML = "<b>Cat</b> (probability=".concat(prob, "%)");
-  }
+  //if (p_cat < 0.5) {
+  //    prob = ((1-p_cat)*100).toFixed(2);
+  //    pred.innerHTML = "<b>Dog</b> (probability=".concat(prob, "%)");
+  //} else {
+  //  prob = (p_cat*100).toFixed(2);
+  //  pred.innerHTML = "<b>Cat</b> (probability=".concat(prob, "%)");
+  //}
   /// YOUR CODE ENDS HERE
 
-  return(p_cat);
+prob = ((1-result.dataSync()[indexOfMaxValue])*100).toFixed(2);
+pred.innerHTML = "<b>" + labels[indexOfMaxValue] + "</b>  (probability=".concat(prob, "%)");
+  return(prob);
 }
 
 app();
